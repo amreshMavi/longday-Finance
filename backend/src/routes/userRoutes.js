@@ -10,4 +10,4 @@ router.get("/novel", (req, res) => {
     res.send("This is a novel endpoint TBATE")
 })
 
-export default router; //Mount routes at this base path
+export default router; 
