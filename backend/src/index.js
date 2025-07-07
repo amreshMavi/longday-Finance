@@ -4,6 +4,7 @@ import express from "express";
 import cors from "cors";
 import router from "./routes/userRoutes.js";
 import cookieParser from "cookie-parser";
+import userRoutes from "./routes/userRoutes.js";
 
 dotenv.config({
   path: "./env", // giving directory to access .env variables
@@ -24,7 +25,8 @@ app.use(express.urlencoded({ extended: true, limit: "16kb" })); // Parses incomi
 app.use(express.static("public")); // Serves static files from the "public" directory
 app.use(cookieParser());
 
-app.use("/", router); //Mount routes at this base path
+// app.use("/", router); //Mount routes at this base path
+app.use("/api/auth", router); // Mount user routes at this base path
 
 const PORT = process.env.PORT || 3000;
 
