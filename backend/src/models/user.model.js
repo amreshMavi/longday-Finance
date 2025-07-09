@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema(
   {
     username: {
       type: String,
-      required: true,
+      required: [true, "Username is required"],
       unique: true,
       trim: true,
       lowercase: true,
@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema(
     },
     email: {
       type: String,
-      required: true,
+      required: [true, "email is required"],
       unique: true,
       trim: true,
       lowercase: true,
@@ -28,7 +28,6 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, "Password is required"],
       minlength: [8, "Password must be at least 8 characters long"],
-      maxlength: [20, "Password must be at most 20 characters long"],
     },
     refreshToken: {
       type: String,
@@ -83,3 +82,4 @@ userSchema.methods.generateRefreshToken = function () {
 
 export const User = mongoose.model("User", userSchema);
 // model will be saved in the database as 'users' (plural form of the model name)
+// export { isPasswordCorrect, generateAccessToken, generateRefreshToken }

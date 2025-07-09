@@ -26,7 +26,7 @@ app.use(express.static("public")); // Serves static files from the "public" dire
 app.use(cookieParser());
 
 // app.use("/", router); //Mount routes at this base path
-app.use("/api/auth", router); // Mount user routes at this base path
+app.use("/", router); // Mount user routes at this base path
 
 const PORT = process.env.PORT || 3000;
 
