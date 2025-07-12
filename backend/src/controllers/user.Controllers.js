@@ -71,25 +71,65 @@ const loginUser = async (req, res, next) => {
       return res.status(401).json({ message: "Invalid password" });
     }
 
-    const accessToken = existingUser.generateAccessToken();
-    const refreshToken = existingUser.generateRefreshToken();
+    const accessToken =  existingUser.generateAccessToken();
+    const refreshToken =  existingUser.generateRefreshToken();
 
     existingUser.refreshToken = refreshToken;
     await existingUser.save();
 
-    res.status(200).json({
-      message: "Login successful",
-      user: {
-        _id: existingUser._id,
-        username: existingUser.username,
-        email: existingUser.email,
-      },
-      accessToken,
-      refreshToken,
-    });
+    const loggedInUser = await User.findById(existingUser._id).select(
+      "-password -refreshToken"
+    )
+    // console.log("loggedInUser is", loggedInUser);
+
+    // access and refresh tokens cant be updated when both are true
+    const options = { 
+      httpOnly: true,
+      secure: true
+    }
+
+    return res
+    .status(200)
+    .cookie("accessToken", accessToken, options)
+    .cookie("refreshToken", refreshToken, options)
+    .json(
+      new ApiResponse(
+        200,
+        {
+          existingUser: loggedInUser, accessToken, refreshToken
+        },
+        "User Logged in successfully"
+      )
+    )
+
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
 
-export { registerUser, loginUser };
+const logoutUser = async (req, res, next) => {
+  await User.findByIdAndUpdate(
+    req.user._id,
+    {
+      $set: {
+        refreshToken: undefined
+      }
+    },
+    {
+      new: true // return the updated document
+    }
+  )
+
+  const options = {
+    httpOnly: true,
+    secure: true
+  }
+
+  return res
+  .status(200)
+  .clearCookie("accessToken", options)
+  .clearCookie("refreshToken", options)
+  .json(new ApiResponse(200, {}, "User logged out successfully"))
+}
+
+export { registerUser, loginUser, logoutUser };
