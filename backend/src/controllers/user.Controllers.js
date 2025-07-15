@@ -24,7 +24,7 @@ const generateAccessandRefreshTokens = async (userId) => {
   }
 }
 
-const registerUser = async (req, res, next) => {
+const registerUser = async (req, res, _) => {
   console.log("req.body is", req.body);
   const { username, email, password } = req.body;
 
@@ -153,7 +153,7 @@ const logoutUser = async (req, res, next) => {
   .json(new ApiResponse(200, {}, "User logged out successfully"))
 }
 
-const refreshAccessToken = async (req, res, next) => {
+const refreshAccessToken = async (req, res, _) => {
   const incomingRefreshToken = req.cookies.refreshToken || req.body.refreshToken
 
   if (!incomingRefreshToken) {
@@ -181,16 +181,16 @@ const refreshAccessToken = async (req, res, next) => {
       secure: true
     }
   
-    const {newAccessToken, newRefreshToken} = await generateAccessandRefreshTokens(user._id)
+    const {accessToken, newRefreshToken} = await generateAccessandRefreshTokens(user._id)
   
     return res
     .status(200)
-    .cookie("accessToken", newAccessToken, options)
+    .cookie("accessToken", accessToken, options)
     .cookie("refreshToken", newRefreshToken, options)
     .json(
       new ApiResponse(
         200,
-        {accessToken, newRefreshToken},
+        {accessToken, refreshToken: newRefreshToken},
         "Access token refreshed"
       )
     )
