@@ -1,11 +1,11 @@
-import { UserTransaction } from "../models/user.transactions";
-import { ApiError } from "../utils/ApiError";
-import { ApiResponse } from "../utils/ApiResponse";
+import { UserTransaction } from "../models/user.transactions.js";
+import { ApiError } from "../utils/ApiError.js";
+import { ApiResponse } from "../utils/ApiResponse.js";
 
 // responsible for implementing the business logic for all operations related to financial transactions
 
 // Handles the creation of a new financial transaction for the authenticated user.
-const addTransacion = async (req, res, next) => {
+const addTransaction = async (req, res, _) => {
     const { description, amount, type, transactionDate, category } = req.body
     const { userId } = req.user
 
@@ -153,4 +153,4 @@ const deleteTransaction = async (req, res, _) => {
 
 }
 
-export { addTransacion, getTransactions, updateTransaction, deleteTransaction}
+export { addTransaction, getTransactions, updateTransaction, deleteTransaction}

@@ -3,6 +3,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import dotenv from "dotenv";
 import router from "./routes/userRoutes.js";
+import morgan from "morgan"
 
 dotenv.config({
   path: "./env", // giving directory to access .env variables
@@ -21,6 +22,8 @@ app.use(express.json({ limit: "16kb" })); // Limit the size of JSON payloads to 
 app.use(express.urlencoded({ extended: true, limit: "16kb" })); // Parses incoming requests with URL-encoded payloads
 app.use(express.static("public")); // Serves static files from the "public" directory
 app.use(cookieParser());
+
+app.use(morgan("combined")); // Logs HTTP requests in the combined format
 
 app.use("/", router); // Mount user routes at this base path
 

@@ -7,6 +7,19 @@ import {
 } from "../controllers/user.Controllers.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
+import {
+  validateRegister,
+  validateAddTransaction,
+  validateUpdateTransaction,
+  handleValidationErrors,
+} from "../middlewares/validation.middleware.js";
+import {
+  addTransaction,
+  updateTransaction,
+  deleteTransaction,
+  getTransactions,
+} from "../controllers/transaction.controller.js";
+import { authLimiter } from "../middlewares/rateLimiter.middleware.js";
 
 const router = express.Router();
 
@@ -24,6 +37,9 @@ router.get("/character", (req, res) => {
 
 router.post(
   "/register",
+  authLimiter, // Applies rate limiting to the registration route
+  validateRegister,
+  handleValidationErrors,
   upload.fields([
     {
       name: "coverImage",
@@ -33,9 +49,29 @@ router.post(
   registerUser
 );
 
-router.post("/login", loginUser);
+router.post("/login", authLimiter, loginUser);
 
 //secured routes, user should be logged in to access this
+
+router.post(
+  "/add-transaction",
+  verifyJWT,
+  validateAddTransaction,
+  handleValidationErrors,
+  addTransaction
+);
+
+router.get("/all-transactions", verifyJWT, getTransactions);
+
+router.put(
+  "/update-transaction/:id",
+  verifyJWT,
+  validateUpdateTransaction,
+  handleValidationErrors,
+  updateTransaction
+);
+
+router.delete("/delete-transaction/:id", verifyJWT, deleteTransaction);
 
 router.post("/logout", verifyJWT, logoutUser);
 router.post("/refresh-token", refreshAccessToken);

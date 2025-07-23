@@ -76,7 +76,7 @@ const registerUser = async (req, res, _) => {
   
 };
 
-const loginUser = async (req, res, next) => {
+const loginUser = async (req, res, _) => {
   console.log("req.body is", req.body);
   const { email, password, username } = req.body;
 
@@ -128,7 +128,7 @@ const loginUser = async (req, res, next) => {
   }
 };
 
-const logoutUser = async (req, res, next) => {
+const logoutUser = async (req, res, _) => {
   await User.findByIdAndUpdate(
     req.user._id,
     {
