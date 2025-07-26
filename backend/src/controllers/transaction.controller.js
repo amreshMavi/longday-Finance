@@ -7,7 +7,10 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 // Handles the creation of a new financial transaction for the authenticated user.
 const addTransaction = async (req, res, _) => {
     const { description, amount, type, transactionDate, category } = req.body
-    const { userId } = req.user
+    const userId = req.user.userId || req.user._id; // Extract userId from the request object, which is set by the verifyJWT middleware
+    console.log(userId)
+
+    console.log("Extracted transactionDate:", transactionDate);
 
     if (!userId) {
         throw new ApiError(401, "User not authenticated")
@@ -18,7 +21,6 @@ const addTransaction = async (req, res, _) => {
             !description?.trim() ||
             !amount ||
             !type?.trim() ||
-            !transactionDate ||
             !category?.trim()
         ) {
             throw new ApiError(400, "All fields are required!")
@@ -29,20 +31,18 @@ const addTransaction = async (req, res, _) => {
             description,
             amount,
             type,
-            transactionDate: new Date(transactionDate),
+            // transactionDate: new Date(transactionDate),
             category
         })
 
-        await newTransaction.save()
+        console.log(transactionDate, "transactionDate")
 
-        // const createdTransaction = await newTransaction;
-
-        // if (!createdTransaction) {
-        //     throw new ApiError(500, "Transaction creation failed")
-        // }
+        const Transaction = new UserTransaction(newTransaction);
+ 
+        await Transaction.save()
 
         return res.status(201).json(
-            new ApiResponse(200, createdTransaction, "Transaction created successfully")
+            new ApiResponse(200, Transaction, "Transaction created successfully")
         )
     } catch (error) {
         throw new ApiError(500, error?.message || "Transaction creation failed")

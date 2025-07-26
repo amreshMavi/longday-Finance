@@ -2,7 +2,7 @@ import {body, validationResult} from 'express-validator';
 
 const validateRegister = [
     body('email').isEmail().withMessage('Enter a valid email'),
-    body('password').isLength({min: 7}).withMessage("Password needs to be at least 7 characters long"),
+    body('password').isLength({min: 5}).withMessage("Password needs to be at least 5 characters long"),
     body("username").notEmpty().withMessage("Username can't be empty")
 ]
 

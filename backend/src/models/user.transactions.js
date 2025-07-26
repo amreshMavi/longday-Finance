@@ -25,7 +25,7 @@ const userTransactionSchema = new mongoose.Schema(
             required: [true, "Transaction type is required"],
             enum: {
                 values: ["income", "expense"],
-                message: "Transaction type must be either 'credit' or 'debit'"
+                message: "Transaction type must be either 'income' or 'expense'"
             },
             lowercase: true
         },
@@ -42,7 +42,7 @@ const userTransactionSchema = new mongoose.Schema(
         transactionDate: {
             type: Date,
             default: Date.now,
-            required: [true, "Transaction date is required"]
+            // required: [true, "Transaction date is required"]
         },
     },
     {
