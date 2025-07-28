@@ -38,14 +38,14 @@ router.get("/character", (req, res) => {
 router.post(
   "/register",
   authLimiter, // Applies rate limiting to the registration route
-  // validateRegister,
-  handleValidationErrors,
   upload.fields([
     {
       name: "coverImage",
       maxCount: 1,
     },
   ]),
+  validateRegister,
+  handleValidationErrors,
   registerUser
 );
 

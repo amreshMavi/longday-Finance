@@ -1,0 +1,358 @@
+{
+	"info": {
+		"_postman_id": "f0b2087c-7280-4b72-b136-a93e729d185f",
+		"name": "longday-finance",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "42375129"
+	},
+	"item": [
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {\r",
+									"    pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response Content-Type is 'text/xml'\", function () {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('text/xml');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response is not null\", function () {\r",
+									"    const responseData = xml2Json(pm.response.text());\r",
+									"    \r",
+									"    pm.expect(responseData).to.exist;\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Validate the XML schema of the response\", function () {\r",
+									"    const responseData = xml2Json(pm.response.text());\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    // Assuming the expected structure of the response XML schema should be validated\r",
+									"    // This is a placeholder for the actual schema validation logic\r",
+									"    pm.expect(responseData).to.have.keys(['rootElement']); // replace 'rootElement' with actual expected keys\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "handlerone",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "cote4362@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "8966000999Am",
+									"type": "text"
+								},
+								{
+									"key": "coverImage",
+									"type": "file",
+									"src": "/C:/Users/Am436/Pictures/God of War/envie-p-7.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseURL}}/register",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"godspell09@gmail.com\",\r\n    \"password\": \"8966000999Am\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/logout",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"godspell09@gmail.com\",\r\n    \"password\": \"8966000999Am\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/login",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "transactions",
+			"item": [
+				{
+					"name": "add-transaction",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODcyYWI3YWI4YmY0M2E1ZTY0NTc4NTkiLCJ1c2VybmFtZSI6Im1hdmlAYW1yZXNoIiwiZW1haWwiOiJnb2RzcGVsbDA5QGdtYWlsLmNvbSIsImlhdCI6MTc1MzQ3Mjc3NiwiZXhwIjoxNzUzNTU5MTc2fQ.UufLMKbX98JIykdrrYYZlqNEcibb_L6dQ8qyW83rqFM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\": \"Monthly electricity bill, first transaction\",\r\n    \"amount\": 100,\r\n    \"type\": \"expense\",\r\n    \"category\": \"bill\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/add-transaction",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"add-transaction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-transactions",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODcyYWI3YWI4YmY0M2E1ZTY0NTc4NTkiLCJ1c2VybmFtZSI6Im1hdmlAYW1yZXNoIiwiZW1haWwiOiJnb2RzcGVsbDA5QGdtYWlsLmNvbSIsImlhdCI6MTc1MzU1MjU3OSwiZXhwIjoxNzUzNjM4OTc5fQ.jsqv3zX0ES_DUm7Id1zyBloRruaR1V5h1EQaCAP_orE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{baseURL}}/all-transactions",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"all-transactions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update-transaction",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODcyYWI3YWI4YmY0M2E1ZTY0NTc4NTkiLCJ1c2VybmFtZSI6Im1hdmlAYW1yZXNoIiwiZW1haWwiOiJnb2RzcGVsbDA5QGdtYWlsLmNvbSIsImlhdCI6MTc1MzU1MjU3OSwiZXhwIjoxNzUzNjM4OTc5fQ.jsqv3zX0ES_DUm7Id1zyBloRruaR1V5h1EQaCAP_orE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"amount\": \"100\",\r\n    \"category\": \"bill\",\r\n    \"type\": \"expense\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/update-transaction/{{:id}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"update-transaction",
+								"{{:id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete-request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODcyYWI3YWI4YmY0M2E1ZTY0NTc4NTkiLCJ1c2VybmFtZSI6Im1hdmlAYW1yZXNoIiwiZW1haWwiOiJnb2RzcGVsbDA5QGdtYWlsLmNvbSIsImlhdCI6MTc1MzU1MjU3OSwiZXhwIjoxNzUzNjM4OTc5fQ.jsqv3zX0ES_DUm7Id1zyBloRruaR1V5h1EQaCAP_orE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseURL}}/delete-transaction/{{:id}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"delete-transaction",
+								"{{:id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "http://localhost:3000",
+			"type": "default"
+		},
+		{
+			"key": "token",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODcyYWI3YWI4YmY0M2E1ZTY0NTc4NTkiLCJ1c2VybmFtZSI6Im1hdmlAYW1yZXNoIiwiZW1haWwiOiJnb2RzcGVsbDA5QGdtYWlsLmNvbSIsImlhdCI6MTc1MzQ3MTI0MSwiZXhwIjoxNzUzNTU3NjQxfQ.cnDmZZ07jDe021JZiB4o6USPrcVgH-5AIw5g3KP7eD4",
+			"type": "default"
+		},
+		{
+			"key": ":id",
+			"value": "6872ab7ab8bf43a5e6457859",
+			"type": "default"
+		}
+	]
+}
